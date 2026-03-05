@@ -48,6 +48,16 @@
     display: flex; align-items: center; justify-content: center;
     font-family: 'Source Serif 4', serif; font-size: 2.8rem; color: rgba(255,255,255,0.55);
     border: 3px solid var(--border);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .profile-photo img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 50%;
+    display: block;
   }
   .sidebar h1 { font-family: 'Source Serif 4', serif; font-size: 1.3rem; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; }
   .sidebar .position { font-size: 0.82rem; color: var(--blue); font-weight: 500; margin-bottom: 0.2rem; line-height: 1.4; }
@@ -158,7 +168,7 @@
     <li><a href="#services">Services</a></li>
     <li><a href="#awards">Awards</a></li>
     <li><div class="nav-divider"></div></li>
-    <li><a href="mailto:dora.mallikarjun@gmail.com">Contact</a></li>
+    <li><a href="/cdn-cgi/l/email-protection#395d564b5817545855555052584b534c57795e54585055175a5654">Contact</a></li>
     <li><a href="https://orcid.org/0000-0003-4446-3309" target="_blank">ORCID ↗</a></li>
   </ul>
 </nav>
@@ -167,21 +177,20 @@
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
-    <div class="profile-photo" style="padding:0; overflow:hidden;">
-     <img src="profile.jpg" alt="Mallikarjun Dora"
-          style="width:100%; height:100%; object-fit:cover; border-radius:50%;" />
-   </div>
+    <div class="profile-photo">
+      <img src="profile.jpg" alt="Mallikarjun Dora" onerror="this.style.display='none'" />
+    </div>
     <h1>Mallikarjun Dora</h1>
     <div class="position">Assistant Librarian</div>
     <div class="institution">Vikram Sarabhai Library<br>IIM Ahmedabad, India</div>
     <ul class="sidebar-contact">
       <li><span class="ico">📍</span><span>Vikram Sarabhai Library, IIM Ahmedabad, Gujarat, India</span></li>
-      <li><span class="ico">✉️</span><a href="mailto:dora.mallikarjun@gmail.com">dora.mallikarjun@gmail.com</a></li>
+      <li><span class="ico">✉️</span><a href="/cdn-cgi/l/email-protection#791d160b1857141815151012180b130c17391e14181015571a1614"><span class="__cf_email__" data-cfemail="086c677a6926656964646163697a627d66486f65696164266b6765">[email&#160;protected]</span></a></li>
       <li><span class="ico">🔬</span><a href="https://orcid.org/0000-0003-4446-3309" target="_blank">ORCID: 0000-0003-4446-3309</a></li>
     </ul>
     <div class="social-links">
       <a href="https://orcid.org/0000-0003-4446-3309" class="social-btn" target="_blank">ORCID</a>
-      <a href="mailto:dora.mallikarjun@gmail.com" class="social-btn">Email</a>
+      <a href="/cdn-cgi/l/email-protection#bbdfd4c9da95d6dad7d7d2d0dac9d1ced5fbdcd6dad2d795d8d4d6" class="social-btn">Email</a>
       <a href="https://ilaindia.co.in/" class="social-btn" target="_blank">ILA</a>
     </div>
   </aside>
@@ -310,17 +319,5 @@
 
 <footer>
   © 2025 Mallikarjun Dora &nbsp;·&nbsp; Assistant Librarian, Vikram Sarabhai Library, IIM Ahmedabad &nbsp;·&nbsp;
-  <a href="mailto:dora.mallikarjun@gmail.com">dora.mallikarjun@gmail.com</a> &nbsp;·&nbsp;
-  <a href="https://orcid.org/0000-0003-4446-3309" target="_blank">ORCID</a>
-</footer>
-
-<script>
-  function showTab(e, name) {
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-    document.getElementById('tab-' + name).classList.add('active');
-    e.target.classList.add('active');
-  }
-</script>
-</body>
-</html>
+  <a href="/cdn-cgi/l/email-protection#f692998497d89b979a9a9f9d97849c8398b6919b979f9ad895999b"><span class="__cf_email__" data-cfemail="afcbc0ddce81c2cec3c3c6c4ceddc5dac1efc8c2cec6c381ccc0c2">[email&#160;protected]</span></a> &nbsp;·&nbsp;
+  <a href="https://orcid.org/0000-0003-4446-33
