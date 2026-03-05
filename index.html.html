@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Alex Rivera — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --cream: #F7F2EA;
+    --parchment: #EDE5D6;
+    --warm-brown: #6B4C35;
+    --ink: #2C1F14;
+    --rust: #B85C38;
+    --sage: #7A8C6E;
+    --gold: #C49A3C;
+    --muted: #9A8778;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    background: rgba(247, 242, 234, 0.88);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(107, 76, 53, 0.12);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--rust); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+  }
+
+  .hero-left {
+    padding: 8rem 4rem 4rem 6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--warm-brown);
+  }
+
+  .hero-tagline {
+    font-family: 'Lora', serif;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 400px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .btn-primary {
+    background: var(--rust);
+    color: #fff;
+    padding: 0.85rem 2rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--warm-brown); transform: translateY(-1px); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    padding: 0.85rem 2rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1.5px solid var(--ink);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--rust); color: var(--rust); }
+
+  .hero-right {
+    position: relative;
+    background: var(--parchment);
+    overflow: hidden;
+  }
+
+  .hero-image-frame {
+    position: absolute;
+    inset: 3rem 3rem 3rem 0;
+    background: var(--warm-brown);
+    opacity: 0;
+    animation: fadeIn 1s 0.5s forwards;
+  }
+
+  .hero-image-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(196,154,60,0.25) 0%, transparent 60%);
+  }
+
+  .hero-photo-placeholder {
+    position: absolute;
+    inset: 3rem 3rem 3rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: rgba(247,242,234,0.5);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: linear-gradient(160deg, #8B6347 0%, #4A2E1C 100%);
+  }
+
+  .hero-floating-tag {
+    position: absolute;
+    bottom: 5rem;
+    left: -2rem;
+    background: var(--cream);
+    padding: 1rem 1.5rem;
+    border-left: 3px solid var(--rust);
+    box-shadow: 0 8px 32px rgba(44,31,20,0.12);
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+
+  .hero-floating-tag span {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.2rem;
+  }
+
+  .hero-floating-tag strong {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--ink);
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-strip {
+    background: var(--ink);
+    padding: 1rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee-inner {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+  }
+
+  .marquee-inner span {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--gold);
+    padding: 0 2.5rem;
+  }
+
+  .marquee-inner span.dot {
+    color: var(--rust);
+    font-style: normal;
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    padding: 7rem 6rem;
+    border-bottom: 1px solid var(--parchment);
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    padding-top: 0.5rem;
+  }
+
+  .about-body h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    line-height: 1.25;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+  }
+
+  .about-body p {
+    font-family: 'Lora', serif;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--muted);
+    max-width: 600px;
+    margin-bottom: 1.2rem;
+  }
+
+  .about-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--parchment);
+  }
+
+  .stat-item .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--rust);
+    line-height: 1;
+  }
+
+  .stat-item .label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.3rem;
+  }
+
+  /* ── WORK ── */
+  .work {
+    padding: 7rem 6rem;
+    background: var(--parchment);
+  }
+
+  .work-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 4rem;
+  }
+
+  .work-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    color: var(--ink);
+  }
+
+  .work-header a {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rust);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rust);
+    padding-bottom: 2px;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .project-card {
+    background: var(--cream);
+    overflow: hidden;
+    transition: transform 0.3s;
+    cursor: pointer;
+  }
+
+  .project-card:hover { transform: translateY(-4px); }
+
+  .project-card:first-child {
+    grid-column: span 2;
+  }
+
+  .project-thumb {
+    height: 240px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card:first-child .project-thumb { height: 320px; }
+
+  .project-thumb-bg {
+    position: absolute;
+    inset: 0;
+    transition: transform 0.5s;
+  }
+
+  .project-card:hover .project-thumb-bg { transform: scale(1.04); }
+
+  .bg-1 { background: linear-gradient(135deg, #C49A3C 0%, #8B6347 100%); }
+  .bg-2 { background: linear-gradient(135deg, #7A8C6E 0%, #4A5C42 100%); }
+  .bg-3 { background: linear-gradient(135deg, #B85C38 0%, #6B2E18 100%); }
+
+  .project-label-overlay {
+    position: absolute;
+    bottom: 1.2rem; left: 1.2rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    color: rgba(247,242,234,0.7);
+    letter-spacing: 0.05em;
+  }
+
+  .project-info {
+    padding: 1.4rem 1.5rem 1.8rem;
+  }
+
+  .project-category {
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.5rem;
+  }
+
+  .project-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .project-desc {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  /* ── SERVICES ── */
+  .services {
+    padding: 7rem 6rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .services-left h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    line-height: 1.25;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+  }
+
+  .services-left p {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .service-list {
+    list-style: none;
+  }
+
+  .service-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--parchment);
+    cursor: default;
+    transition: padding-left 0.2s;
+  }
+
+  .service-item:hover { padding-left: 0.5rem; }
+
+  .service-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    color: var(--gold);
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  .service-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+
+  .service-desc {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  /* ── TESTIMONIAL ── */
+  .testimonial {
+    background: var(--ink);
+    padding: 6rem 6rem;
+    text-align: center;
+  }
+
+  .testimonial blockquote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    line-height: 1.6;
+    color: var(--cream);
+    max-width: 760px;
+    margin: 0 auto 2rem;
+  }
+
+  .testimonial cite {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  /* ── CONTACT ── */
+  .contact {
+    padding: 7rem 6rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .contact-left h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-left p {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-detail {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .contact-detail .icon {
+    width: 36px; height: 36px;
+    background: var(--parchment);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .contact-detail span {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+  .form-group label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .form-group input,
+  .form-group textarea {
+    background: var(--parchment);
+    border: 1px solid transparent;
+    padding: 0.85rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--rust);
+  }
+
+  .form-group textarea { min-height: 120px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--parchment);
+    padding: 2.5rem 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(107,76,53,0.12);
+  }
+
+  footer p {
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .footer-links { display: flex; gap: 1.5rem; }
+
+  .footer-links a {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--rust); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Alex Rivera</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Creative Director & Visual Storyteller</p>
+    <h1 class="hero-name">Crafting stories<br>that <em>linger.</em></h1>
+    <p class="hero-tagline">I work at the intersection of design and narrative — turning ideas into visual experiences that feel human, warm, and unforgettable.</p>
+    <div class="hero-cta">
+      <a href="#work" class="btn-primary">View Work</a>
+      <a href="#contact" class="btn-secondary">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-photo-placeholder">
+      Your photo here
+    </div>
+    <div class="hero-floating-tag">
+      <span>Available for projects</span>
+      <strong>2025 →</strong>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <span>Brand Identity</span><span class="dot">✦</span>
+    <span>Visual Direction</span><span class="dot">✦</span>
+    <span>Editorial Design</span><span class="dot">✦</span>
+    <span>Web Experience</span><span class="dot">✦</span>
+    <span>Photography</span><span class="dot">✦</span>
+    <span>Brand Identity</span><span class="dot">✦</span>
+    <span>Visual Direction</span><span class="dot">✦</span>
+    <span>Editorial Design</span><span class="dot">✦</span>
+    <span>Web Experience</span><span class="dot">✦</span>
+    <span>Photography</span><span class="dot">✦</span>
+    <span>Brand Identity</span><span class="dot">✦</span>
+    <span>Visual Direction</span><span class="dot">✦</span>
+    <span>Editorial Design</span><span class="dot">✦</span>
+    <span>Web Experience</span><span class="dot">✦</span>
+    <span>Photography</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div><p class="section-label reveal">About</p></div>
+  <div class="about-body reveal">
+    <h2>A decade of design,<br>rooted in intention.</h2>
+    <p>I'm Alex — a Brooklyn-based creative director with ten years of experience building brands that feel genuinely alive. My process is slow, deliberate, and deeply collaborative. I believe the best design is almost invisible: it simply feels right.</p>
+    <p>Before going independent, I led visual teams at Condé Nast and a handful of beloved independent studios. These days I take on a small number of projects each year — the kind that deserve real attention.</p>
+    <div class="about-stats">
+      <div class="stat-item">
+        <div class="num">10+</div>
+        <div class="label">Years Experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">80+</div>
+        <div class="label">Projects Delivered</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">4</div>
+        <div class="label">Design Awards</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work" id="work">
+  <div class="work-header reveal">
+    <h2>Selected Work</h2>
+    <a href="#">See all projects</a>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-thumb">
+        <div class="project-thumb-bg bg-1"></div>
+        <div class="project-label-overlay">Maison Dorée</div>
+      </div>
+      <div class="project-info">
+        <p class="project-category">Brand Identity · Packaging</p>
+        <h3 class="project-title">Maison Dorée — Artisan Chocolatier</h3>
+        <p class="project-desc">Full visual identity and packaging system for a Paris-born chocolatier expanding to North America.</p>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-thumb">
+        <div class="project-thumb-bg bg-2"></div>
+        <div class="project-label-overlay">Arbor</div>
+      </div>
+      <div class="project-info">
+        <p class="project-category">Web Design · Editorial</p>
+        <h3 class="project-title">Arbor — Sustainable Living Magazine</h3>
+        <p class="project-desc">Digital redesign and editorial system for an independent sustainability publication.</p>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-thumb">
+        <div class="project-thumb-bg bg-3"></div>
+        <div class="project-label-overlay">Vessel</div>
+      </div>
+      <div class="project-info">
+        <p class="project-category">Photography · Direction</p>
+        <h3 class="project-title">Vessel — Ceramics Studio</h3>
+        <p class="project-desc">Campaign photography and brand direction for an award-winning ceramics studio in Vermont.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-left reveal">
+    <p class="section-label" style="margin-bottom:1rem;">What I Do</p>
+    <h2>Where craft meets<br><em>intention.</em></h2>
+    <p>I offer a focused range of services for independent brands, studios, and founders who care deeply about how they show up in the world.</p>
+    <a href="#contact" class="btn-primary" style="display:inline-block; margin-top: 0.5rem;">Start a conversation</a>
+  </div>
+  <ul class="service-list reveal">
+    <li class="service-item">
+      <span class="service-num">01</span>
+      <div>
+        <div class="service-name">Brand Identity</div>
+        <div class="service-desc">Logo, typography, color, voice — everything that makes a brand recognizable and resonant.</div>
+      </div>
+    </li>
+    <li class="service-item">
+      <span class="service-num">02</span>
+      <div>
+        <div class="service-name">Editorial Design</div>
+        <div class="service-desc">Books, magazines, annual reports, and long-form content designed to be read and remembered.</div>
+      </div>
+    </li>
+    <li class="service-item">
+      <span class="service-num">03</span>
+      <div>
+        <div class="service-name">Web Experience</div>
+        <div class="service-desc">Thoughtful, story-forward websites that translate your brand into a living, breathing space.</div>
+      </div>
+    </li>
+    <li class="service-item">
+      <span class="service-num">04</span>
+      <div>
+        <div class="service-name">Creative Direction</div>
+        <div class="service-desc">Campaign concepting, photo direction, and visual storytelling for shoots and launches.</div>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial">
+  <blockquote class="reveal">"Alex has a rare gift — the ability to listen deeply and translate the soul of a brand into something truly beautiful. Our identity has never felt more like us."</blockquote>
+  <cite class="reveal">— Sophie Marchand, Founder, Maison Dorée</cite>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-left reveal">
+    <p class="section-label" style="margin-bottom:1rem;">Let's Work Together</p>
+    <h2>Got a project<br>in mind?</h2>
+    <p>I'm currently accepting a limited number of new projects for late 2025. I'd love to hear about yours.</p>
+    <div class="contact-detail">
+      <div class="icon">✉</div>
+      <span>hello@alexrivera.co</span>
+    </div>
+    <div class="contact-detail">
+      <div class="icon">📍</div>
+      <span>Brooklyn, New York</span>
+    </div>
+    <div class="contact-detail">
+      <div class="icon">⏱</div>
+      <span>Response within 48 hours</span>
+    </div>
+  </div>
+  <div class="contact-form reveal">
+    <div class="form-group">
+      <label>Your Name</label>
+      <input type="text" placeholder="Jane Smith" />
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" placeholder="jane@example.com" />
+    </div>
+    <div class="form-group">
+      <label>Project Type</label>
+      <input type="text" placeholder="Brand Identity, Web Design…" />
+    </div>
+    <div class="form-group">
+      <label>Tell Me More</label>
+      <textarea placeholder="Share a little about your project, timeline, and budget…"></textarea>
+    </div>
+    <button class="btn-primary" style="width:fit-content;">Send Message →</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Alex Rivera. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="#">Instagram</a>
+    <a href="#">LinkedIn</a>
+    <a href="#">Dribbble</a>
+    <a href="#">Resume</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
